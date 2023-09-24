@@ -39,8 +39,8 @@ system-config = ["trust-dns-resolver/system-config"]
 # TODO: These next features are common across the trust-dns crates, but they are not ready for use here
 ####
 
-#dns-over-native-tls = ["dns-over-tls", "trust-dns-resolver/dns-over-native-tls"]
-# DNS over TLS with OpenSSL currently needs a good way to set default CAs, use rustls or native-tls
+
+
 #dns-over-openssl = ["dns-over-tls", "trust-dns-resolver/dns-over-openssl"]
 #dns-over-rustls = ["dns-over-tls", "trust-dns-resolver/dns-over-rustls"]
 #dns-over-tls = []

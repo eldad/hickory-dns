@@ -37,18 +37,18 @@ maintenance = { status = "actively-developed" }
 [features]
 backtrace = ["trust-dns-proto/backtrace"]
 
-dns-over-https-openssl = ["dns-over-https", "dns-over-openssl"]
+# dns-over-https-openssl = ["dns-over-https", "dns-over-openssl"]
 dns-over-https-rustls = ["dns-over-https", "dns-over-rustls", "rustls", "trust-dns-proto/dns-over-https-rustls"]
 dns-over-https = ["trust-dns-proto/dns-over-https"]
 
 dns-over-quic = ["dns-over-rustls", "trust-dns-proto/dns-over-quic"]
 
-dns-over-native-tls = ["dns-over-tls", "trust-dns-proto/dns-over-native-tls"]
-dns-over-openssl = ["dns-over-tls", "dnssec-openssl"]
+
+# dns-over-openssl = ["dns-over-tls", "dnssec-openssl"]
 dns-over-rustls = ["dns-over-tls", "dnssec-ring", "trust-dns-proto/dns-over-rustls"]
 dns-over-tls = []
 
-dnssec-openssl = ["dnssec", "trust-dns-proto/dnssec-openssl"]
+# dnssec-openssl = ["dnssec", "trust-dns-proto/dnssec-openssl"]
 dnssec-ring = ["dnssec", "trust-dns-proto/dnssec-ring"]
 dnssec = ["trust-dns-proto/dnssec"]
 
@@ -79,7 +79,7 @@ webpki = { workspace = true, optional = true }
 
 [dev-dependencies]
 futures = { workspace = true, default-features = false, features = ["std", "executor"] }
-openssl = { workspace = true, features = ["v102", "v110"], optional = false }
+# openssl = { workspace = true, features = ["v102", "v110"], optional = false }
 tokio = { workspace = true, features = ["rt", "macros"] }
 tracing-subscriber = { workspace = true, features = ["std", "fmt", "env-filter"] }
 

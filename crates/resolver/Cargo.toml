@@ -32,9 +32,9 @@ maintenance = { status = "actively-developed" }
 [features]
 default = ["system-config", "tokio-runtime"]
 #backtrace = ["dep:backtrace", "trust-dns-proto/backtrace"]
-dns-over-native-tls = ["dns-over-tls", "tokio-native-tls", "trust-dns-proto/dns-over-native-tls"]
-# DNS over TLS with OpenSSL currently needs a good way to set default CAs, use rustls or native-tls
-dns-over-openssl = ["dns-over-tls", "trust-dns-proto/dns-over-openssl", "tokio-openssl"]
+
+
+# dns-over-openssl = ["dns-over-tls", "trust-dns-proto/dns-over-openssl", "tokio-openssl"]
 dns-over-rustls = ["dns-over-tls", "rustls", "tokio-rustls", "trust-dns-proto/dns-over-rustls", "webpki-roots"]
 dns-over-tls = ["tokio-runtime"]
 
@@ -44,7 +44,7 @@ dns-over-https = ["trust-dns-proto/dns-over-https"]
 
 dns-over-quic = ["rustls/quic", "dns-over-rustls", "trust-dns-proto/dns-over-quic"]
 
-dnssec-openssl = ["dnssec", "trust-dns-proto/dnssec-openssl"]
+# dnssec-openssl = ["dnssec", "trust-dns-proto/dnssec-openssl"]
 dnssec-ring = ["dnssec", "trust-dns-proto/dnssec-ring"]
 dnssec = []
 
@@ -77,8 +77,8 @@ smallvec.workspace = true
 thiserror.workspace = true
 tracing.workspace = true
 tokio = { workspace = true, optional = true }
-tokio-native-tls = { workspace = true, optional = true }
-tokio-openssl = { workspace = true, optional = true }
+
+# tokio-openssl = { workspace = true, optional = true }
 tokio-rustls = { workspace = true, optional = true }
 trust-dns-proto = { workspace = true, default-features = false }
 webpki-roots = { workspace = true, optional = true }

@@ -37,7 +37,7 @@ dns-over-https = ["trust-dns-proto/dns-over-https", "trust-dns-client/dns-over-h
 dns-over-quic = ["dns-over-rustls", "trust-dns-resolver/dns-over-quic"]
 
 dnssec = []
-dnssec-openssl = ["dnssec", "openssl", "trust-dns-client/dnssec-openssl", "trust-dns-proto/dnssec-openssl", "trust-dns-resolver/dnssec-openssl"]
+# dnssec-openssl = ["dnssec", "openssl", "trust-dns-client/dnssec-openssl", "trust-dns-proto/dnssec-openssl", "trust-dns-resolver/dnssec-openssl"]
 dnssec-ring = ["dnssec", "trust-dns-client/dnssec-ring", "trust-dns-proto/dnssec-ring", "trust-dns-resolver/dnssec-ring"]
 
 [[bin]]
@@ -47,17 +47,17 @@ path = "src/dns.rs"
 [[bin]]
 name = "dnskey-to-pem"
 path = "src/bind_dnskey_to_pem.rs"
-required-features = ["dnssec-openssl"]
+# required-features = ["dnssec-openssl"]
 
 [[bin]]
 name = "get-root-ksks"
 path = "src/get_root_ksks.rs"
-required-features = ["dnssec-openssl"]
+# required-features = ["dnssec-openssl"]
 
 [[bin]]
 name = "pem-to-public-dnskey"
 path = "src/pem_to_public_dnskey.rs"
-required-features = ["dnssec-openssl"]
+# required-features = ["dnssec-openssl"]
 
 [[bin]]
 name = "resolve"
@@ -71,7 +71,7 @@ path = "src/recurse.rs"
 clap = { workspace = true, default-features = false, features = ["std", "cargo", "derive", "color", "suggestions", "help", "usage"] }
 console.workspace = true
 data-encoding.workspace = true
-openssl = { workspace = true, features = ["v102", "v110"], optional = true }
+# openssl = { workspace = true, features = ["v102", "v110"], optional = true }
 rustls = { workspace = true, features = ["dangerous_configuration"], optional = true }
 tracing.workspace = true
 tracing-subscriber = { workspace = true, features = ["std", "fmt", "env-filter"] }

@@ -32,15 +32,15 @@ maintenance = { status = "actively-developed" }
 [features]
 dns-over-tls = []
 dns-over-rustls = ["dns-over-tls", "rustls", "rustls-pemfile", "tokio-rustls", "webpki", "tokio-runtime"]
-dns-over-native-tls = ["dns-over-tls", "native-tls", "tokio-native-tls", "tokio-runtime"]
-dns-over-openssl = ["dns-over-tls", "openssl", "tokio-openssl", "tokio-runtime"]
+
+# dns-over-openssl = ["dns-over-tls", "openssl", "tokio-openssl", "tokio-runtime"]
 
 dns-over-https-rustls = ["dns-over-https"]
 dns-over-https = ["bytes", "h2", "http", "dns-over-rustls", "webpki-roots", "tokio-runtime"]
 
 dns-over-quic = ["quinn", "rustls/quic", "dns-over-rustls", "bytes", "webpki-roots", "tokio-runtime"]
 
-dnssec-openssl = ["dnssec", "openssl"]
+# dnssec-openssl = ["dnssec", "openssl"]
 dnssec-ring = ["dnssec", "ring"]
 dnssec = []
 
@@ -81,9 +81,9 @@ http = { workspace = true, optional = true }
 idna.workspace = true
 ipnet.workspace = true
 js-sys = { workspace = true, optional = true }
-native-tls = { workspace = true, optional = true }
+
 once_cell.workspace = true
-openssl = { workspace = true, features = ["v102", "v110"], optional = true }
+# openssl = { workspace = true, features = ["v102", "v110"], optional = true }
 quinn = { workspace = true, optional = true, features = ["log", "runtime-tokio", "tls-rustls"] }
 rand.workspace = true
 ring = { workspace = true, optional = true, features = ["std"] }
@@ -96,8 +96,8 @@ thiserror.workspace = true
 tinyvec = { workspace = true, features = ["alloc"] }
 tracing.workspace = true
 tokio = { workspace = true, features = ["io-util"], optional = true }
-tokio-native-tls = { workspace = true, optional = true }
-tokio-openssl = { workspace = true, optional = true }
+
+# tokio-openssl = { workspace = true, optional = true }
 tokio-rustls = { workspace = true, optional = true, features = ["early-data"] }
 url.workspace = true
 wasm-bindgen-crate = { workspace = true, optional = true }
@@ -106,7 +106,7 @@ webpki-roots = { workspace = true, optional = true }
 
 [dev-dependencies]
 futures-executor = { workspace = true, default-features = false, features = ["std"] }
-openssl = { workspace = true, features = ["v102", "v110"] }
+# openssl = { workspace = true, features = ["v102", "v110"] }
 tokio = { workspace = true, features = ["rt", "time", "macros"] }
 tracing-subscriber = { workspace = true, features = ["std", "fmt", "env-filter"] }
 

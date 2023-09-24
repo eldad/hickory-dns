@@ -51,15 +51,15 @@ futures-io = { version = "0.3.5", default-features = false }
 futures-util = { version = "0.3.5", default-features = false }
 async-std = "1.6"
 tokio = "1.21"
-tokio-native-tls = "0.3.0"
-tokio-openssl = "0.6.0"
+
+# tokio-openssl = "0.6.0"
 tokio-rustls = "0.24.0"
 parking_lot = "0.12"
 
 
 # ssl
-native-tls = "0.2"
-openssl = "0.10.55"
+
+# openssl = "0.10.55"
 rustls = "0.21.0"
 rustls-pemfile = "1.0.0"
 webpki = { version = "0.101.0", package = "rustls-webpki" }

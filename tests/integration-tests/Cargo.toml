@@ -35,16 +35,17 @@ name = "trust_dns_integration"
 path = "src/lib.rs"
 
 [features]
-dnssec-openssl = ["dnssec",
-                  "trust-dns-resolver/dnssec-openssl",
-                  "trust-dns-server/dnssec-openssl",
-                  "trust-dns-client/dnssec-openssl",
-                  "trust-dns-proto/dnssec-openssl"]
+# dnssec-openssl = ["dnssec",
+#                   "trust-dns-resolver/dnssec-openssl",
+#                   "trust-dns-server/dnssec-openssl",
+#                   "trust-dns-client/dnssec-openssl",
+#                   "trust-dns-proto/dnssec-openssl"]
 # TODO: dnssec-openssl is enabled for RSA support, we should add testing support for just the Ring toolchain
 dnssec-ring = ["dnssec",
                "trust-dns-resolver/dnssec-ring",
                "trust-dns-server/dnssec-ring",
-               "trust-dns-client/dnssec-ring", "trust-dns-client/dnssec-openssl",
+               "trust-dns-client/dnssec-ring",
+            #    "trust-dns-client/dnssec-openssl",
                "trust-dns-proto/dnssec-ring"]
 dnssec = []
 
@@ -56,9 +57,9 @@ dns-over-https-rustls = ["trust-dns-client/dns-over-https-rustls", "trust-dns-re
 dns-over-https = ["trust-dns-proto/dns-over-https"]
 dns-over-quic = ["dns-over-rustls", "trust-dns-proto/dns-over-quic", "trust-dns-resolver/dns-over-quic"]
 
-# TODO: need to make server support rustls and native-tls
-# dns-over-native-tls = ["dns-over-tls",  "trust-dns-resolver/dns-over-native-tls", "trust-dns-server/dns-over-native-tls"]
-dns-over-openssl = ["dns-over-tls", "trust-dns-proto/dns-over-openssl", "trust-dns-resolver/dns-over-openssl", "trust-dns-server/dns-over-openssl"]
+
+
+# dns-over-openssl = ["dns-over-tls", "trust-dns-proto/dns-over-openssl", "trust-dns-resolver/dns-over-openssl", "trust-dns-server/dns-over-openssl"]
 dns-over-rustls = ["dns-over-tls", "trust-dns-proto/dns-over-rustls", "trust-dns-resolver/dns-over-rustls", "trust-dns-server/dns-over-rustls"]
 dns-over-tls = []
 
@@ -68,7 +69,7 @@ sqlite = ["rusqlite", "trust-dns-server/sqlite"]
 async-trait.workspace = true
 futures.workspace = true
 once_cell.workspace = true
-openssl = { workspace = true, features = ["v102", "v110"] }
+# openssl = { workspace = true, features = ["v102", "v110"] }
 rand.workspace = true
 rusqlite = { workspace = true, features = ["bundled"], optional = true }
 rustls.workspace = true

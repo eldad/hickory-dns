@@ -33,7 +33,7 @@ maintenance = { status = "actively-developed" }
 
 [features]
 default = ["sqlite", "resolver"]
-dnssec-openssl = ["dnssec", "trust-dns-client/dnssec-openssl", "trust-dns-proto/dnssec-openssl", "trust-dns-server/dnssec-openssl"]
+# dnssec-openssl = ["dnssec", "trust-dns-client/dnssec-openssl", "trust-dns-proto/dnssec-openssl", "trust-dns-server/dnssec-openssl"]
 dnssec-ring = ["dnssec", "trust-dns-client/dnssec-ring", "trust-dns-proto/dnssec-ring", "trust-dns-server/dnssec-ring"]
 dnssec = []
 recursor = ["trust-dns-server/recursor"]
@@ -49,13 +49,13 @@ dns-over-https = ["trust-dns-server/dns-over-https"]
 dns-over-quic = ["dns-over-rustls", "trust-dns-server/dns-over-quic"]
 
 # TODO: migrate all tls and tls-openssl features to dns-over-tls, et al
-dns-over-openssl = ["dns-over-tls", "dnssec-openssl", "trust-dns-proto/dns-over-openssl", "trust-dns-client/dns-over-openssl", "trust-dns-server/dns-over-openssl"]
+# dns-over-openssl = ["dns-over-tls", "dnssec-openssl", "trust-dns-proto/dns-over-openssl", "trust-dns-client/dns-over-openssl", "trust-dns-server/dns-over-openssl"]
 dns-over-rustls = ["dns-over-tls", "dnssec-ring", "rustls", "trust-dns-proto/dns-over-rustls", "trust-dns-client/dns-over-rustls", "trust-dns-server/dns-over-rustls"]
 dns-over-tls = []
 
 # This is a deprecated feature...
-tls-openssl = ["dns-over-openssl"]
-tls = ["dns-over-openssl"]
+# tls-openssl = ["dns-over-openssl"]
+# tls = ["dns-over-openssl"]
 
 # WARNING: there is a bug in the mutual tls auth code at the moment see issue #100
 # mtls = ["trust-dns-client/mtls"]
@@ -81,8 +81,8 @@ trust-dns-proto.workspace = true
 trust-dns-server.workspace = true
 
 [dev-dependencies]
-native-tls.workspace = true
+
 regex.workspace = true
-trust-dns-proto = { workspace = true, features = ["testing", "dns-over-native-tls"] }
+
 trust-dns-resolver.workspace = true
 webpki-roots.workspace = true

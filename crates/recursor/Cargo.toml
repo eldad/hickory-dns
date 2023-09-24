@@ -36,7 +36,7 @@ maintenance = { status = "actively-developed" }
 [features]
 #backtrace = ["dep:backtrace", "trust-dns-proto/backtrace", "trust-dns-resolver/backtrace"]
 
-dnssec-openssl = ["dnssec", "trust-dns-proto/dnssec-openssl", "trust-dns-resolver/dnssec-openssl"]
+# dnssec-openssl = ["dnssec", "trust-dns-proto/dnssec-openssl", "trust-dns-resolver/dnssec-openssl"]
 dnssec-ring = ["dnssec", "trust-dns-proto/dnssec-ring", "trust-dns-resolver/dnssec-ring"]
 dnssec = []
 
@@ -47,14 +47,14 @@ dns-over-https = ["trust-dns-proto/dns-over-https"]
 dns-over-quic = ["dns-over-rustls", "trust-dns-proto/dns-over-quic", "trust-dns-resolver/dns-over-quic"]
 
 # TODO: migrate all tls and tls-openssl features to dns-over-tls, et al
-dns-over-native-tls = ["dns-over-tls", "trust-dns-proto/dns-over-native-tls", "trust-dns-resolver/dns-over-native-tls"]
-dns-over-openssl = ["dns-over-tls", "dnssec-openssl", "trust-dns-proto/dns-over-openssl", "trust-dns-resolver/dns-over-openssl"]
+
+# dns-over-openssl = ["dns-over-tls", "dnssec-openssl", "trust-dns-proto/dns-over-openssl", "trust-dns-resolver/dns-over-openssl"]
 dns-over-rustls = ["dns-over-tls", "dnssec-ring", "trust-dns-proto/dns-over-rustls", "trust-dns-resolver/dns-over-rustls"]
 dns-over-tls = []
 
 # This is a deprecated feature...
-tls-openssl = ["dns-over-openssl"]
-tls = ["dns-over-openssl"]
+# tls-openssl = ["dns-over-openssl"]
+# tls = ["dns-over-openssl"]
 
 serde-config = ["serde", "trust-dns-proto/serde-config", "trust-dns-resolver/serde-config"]
 

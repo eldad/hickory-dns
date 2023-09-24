@@ -37,7 +37,7 @@ maintenance = { status = "actively-developed" }
 
 [features]
 backtrace = ["trust-dns-proto/backtrace"]
-dnssec-openssl = ["dnssec", "openssl", "trust-dns-proto/dnssec-openssl", "trust-dns-resolver/dnssec-openssl"]
+# dnssec-openssl = ["dnssec", "openssl", "trust-dns-proto/dnssec-openssl", "trust-dns-resolver/dnssec-openssl"]
 dnssec-ring = ["dnssec", "trust-dns-proto/dnssec-ring", "trust-dns-resolver/dnssec-ring"]
 dnssec = []
 # Recursive Resolution is Experimental!
@@ -51,15 +51,15 @@ dns-over-https-rustls = ["dns-over-https", "trust-dns-proto/dns-over-https-rustl
 dns-over-https = ["h2", "http", "trust-dns-proto/dns-over-https"]
 
 # TODO: migrate all tls and tls-openssl features to dns-over-tls, et al
-dns-over-openssl = ["dns-over-tls", "dnssec-openssl", "trust-dns-proto/dns-over-openssl", "tokio-openssl", "trust-dns-resolver/dns-over-openssl"]
+# dns-over-openssl = ["dns-over-tls", "dnssec-openssl", "trust-dns-proto/dns-over-openssl", "tokio-openssl", "trust-dns-resolver/dns-over-openssl"]
 dns-over-rustls = ["dns-over-tls", "dnssec-ring", "rustls", "trust-dns-proto/dns-over-rustls", "trust-dns-resolver/dns-over-rustls", "tokio-rustls"]
 dns-over-tls = []
 
 dns-over-quic = ["dns-over-rustls", "trust-dns-proto/dns-over-quic", "trust-dns-resolver/dns-over-quic"]
 
 # This is a deprecated feature...
-tls-openssl = ["dns-over-openssl"]
-tls = ["dns-over-openssl"]
+# tls-openssl = ["dns-over-openssl"]
+# tls = ["dns-over-openssl"]
 
 # WARNING: there is a bug in the mutual tls auth code at the moment see issue #100
 # mtls = ["trust-dns-client/mtls"]
@@ -80,7 +80,7 @@ futures-executor = { workspace = true, default-features = false, features = ["st
 futures-util = { workspace = true, default-features = false, features = ["std"] }
 h2 = { workspace = true, features = ["stream"], optional = true }
 http = { workspace = true, optional = true }
-openssl = { workspace = true, features = ["v102", "v110"], optional = true }
+# openssl = { workspace = true, features = ["v102", "v110"], optional = true }
 rusqlite = { workspace = true, features = ["bundled", "time"], optional = true }
 rustls = { workspace = true, optional = true }
 serde = { workspace = true, features = ["derive"] }
@@ -88,7 +88,7 @@ thiserror.workspace = true
 time.workspace = true
 tracing.workspace = true
 tokio = { workspace = true, features = ["macros", "net", "sync"] }
-tokio-openssl = { workspace = true, optional = true }
+# tokio-openssl = { workspace = true, optional = true }
 tokio-rustls = { workspace = true, optional = true }
 toml.workspace = true
 trust-dns-proto = { workspace = true, features = ["text-parsing", "tokio-runtime"] }
