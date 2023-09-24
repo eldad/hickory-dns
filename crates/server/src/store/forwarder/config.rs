@@ -16,4 +16,11 @@ pub struct ForwardConfig {
     pub name_servers: NameServerConfigGroup,
     /// Resolver options
     pub options: Option<ResolverOpts>,
+    /// Filter
+    pub filter: Option<FilterOpts>,
+}
+
+#[derive(Clone, Deserialize, PartialEq, Eq, Debug)]
+pub struct FilterOpts {
+    pub domain_list_filename: String,
 }

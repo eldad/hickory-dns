@@ -5,9 +5,10 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
-use std::io;
+use std::{collections::HashSet, io, str::FromStr};
 
 use tracing::{debug, info};
+use trust_dns_proto::{op::Query, rr::RData};
 use trust_dns_resolver::name_server::TokioConnectionProvider;
 
 use crate::{
@@ -29,6 +30,7 @@ use crate::{
 pub struct ForwardAuthority {
     origin: LowerName,
     resolver: TokioAsyncResolver,
+    filter: Option<Vec<LowerName>>,
 }
 
 impl ForwardAuthority {
@@ -42,6 +44,7 @@ impl ForwardAuthority {
         Ok(Self {
             origin: Name::root().into(),
             resolver,
+            filter: None,
         })
     }
 
@@ -52,6 +55,16 @@ impl ForwardAuthority {
         config: &ForwardConfig,
     ) -> Result<Self, String> {
         info!("loading forwarder config: {}", origin);
+
+        let mut filter_names: Option<Vec<LowerName>> = None;
+        if let Some(filter) = config.filter.as_ref() {
+            let res: Vec<LowerName> = std::fs::read_to_string(&filter.domain_list_filename)
+                .map_err(|e| e.to_string())?
+                .lines()
+                .map(|name| LowerName::from(Name::from_str(name).unwrap()))
+                .collect();
+            filter_names = Some(res);
+        }
 
         let name_servers = config.name_servers.clone();
         let mut options = config.options.unwrap_or_default();
@@ -85,6 +98,7 @@ impl ForwardAuthority {
         Ok(Self {
             origin: origin.into(),
             resolver,
+            filter: filter_names,
         })
     }
 }
@@ -125,6 +139,21 @@ impl Authority for ForwardAuthority {
     ) -> Result<Self::Lookup, LookupError> {
         // TODO: make this an error?
         debug_assert!(self.origin.zone_of(name));
+
+        if let Some(filter) = self.filter.as_ref() {
+            let found = filter.iter().any(|filter_zone| filter_zone.zone_of(name));
+
+            if found {
+                debug!("filtering {} {}", name, rtype);
+
+                let response = ResolverLookup::from_rdata(
+                    Query::query(name.into(), rtype),
+                    RData::A(trust_dns_proto::rr::rdata::A::new(0, 0, 0, 0)),
+                );
+
+                return Ok(ForwardLookup(response));
+            }
+        }
 
         debug!("forwarding lookup: {} {}", name, rtype);
         let name: LowerName = name.clone();
