@@ -30,7 +30,7 @@ use crate::{
 pub struct ForwardAuthority {
     origin: LowerName,
     resolver: TokioAsyncResolver,
-    filter: Option<Vec<LowerName>>,
+    filter: Option<HashSet<LowerName>>,
 }
 
 impl ForwardAuthority {
@@ -56,9 +56,9 @@ impl ForwardAuthority {
     ) -> Result<Self, String> {
         info!("loading forwarder config: {}", origin);
 
-        let mut filter_names: Option<Vec<LowerName>> = None;
+        let mut filter_names: Option<HashSet<LowerName>> = None;
         if let Some(filter) = config.filter.as_ref() {
-            let res: Vec<LowerName> = std::fs::read_to_string(&filter.domain_list_filename)
+            let res: HashSet<LowerName> = std::fs::read_to_string(&filter.domain_list_filename)
                 .map_err(|e| e.to_string())?
                 .lines()
                 .map(|name| LowerName::from(Name::from_str(name).unwrap()))
@@ -141,7 +141,7 @@ impl Authority for ForwardAuthority {
         debug_assert!(self.origin.zone_of(name));
 
         if let Some(filter) = self.filter.as_ref() {
-            let found = filter.iter().any(|filter_zone| filter_zone.zone_of(name));
+            let found = filter.contains(name);
 
             if found {
                 debug!("filtering {} {}", name, rtype);
