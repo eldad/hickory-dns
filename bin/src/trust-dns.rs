@@ -159,7 +159,7 @@ async fn load_zone(
     }
 
     // load the zone
-    let authority: Box<dyn AuthorityObject> = match zone_config.stores {
+    let authority: Box<dyn AuthorityObject> = match zone_config.stores.as_ref() {
         #[cfg(feature = "sqlite")]
         Some(StoreConfig::Sqlite(ref config)) => {
             if zone_path.is_some() {

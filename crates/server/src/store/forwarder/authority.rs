@@ -5,8 +5,9 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 
-use std::{collections::HashSet, io, str::FromStr};
+use std::io;
 
+use radix_trie::{Trie, TrieCommon};
 use tracing::{debug, info};
 use trust_dns_proto::{op::Query, rr::RData};
 use trust_dns_resolver::name_server::TokioConnectionProvider;
@@ -30,7 +31,7 @@ use crate::{
 pub struct ForwardAuthority {
     origin: LowerName,
     resolver: TokioAsyncResolver,
-    filter: Option<HashSet<LowerName>>,
+    filter_trie: Trie<String, bool>,
 }
 
 impl ForwardAuthority {
@@ -44,7 +45,7 @@ impl ForwardAuthority {
         Ok(Self {
             origin: Name::root().into(),
             resolver,
-            filter: None,
+            filter_trie: Trie::new(),
         })
     }
 
@@ -56,14 +57,23 @@ impl ForwardAuthority {
     ) -> Result<Self, String> {
         info!("loading forwarder config: {}", origin);
 
-        let mut filter_names: Option<HashSet<LowerName>> = None;
+        let mut filter_trie: Trie<String, bool> = Trie::new();
+
         if let Some(filter) = config.filter.as_ref() {
-            let res: HashSet<LowerName> = std::fs::read_to_string(&filter.domain_list_filename)
+            for line in std::fs::read_to_string(&filter.domain_list_filename)
                 .map_err(|e| e.to_string())?
                 .lines()
-                .map(|name| LowerName::from(Name::from_str(name).unwrap()))
-                .collect();
-            filter_names = Some(res);
+            {
+                let reversed = line
+                    .split('.')
+                    .collect::<Vec<&str>>()
+                    .into_iter()
+                    .rev()
+                    .collect::<Vec<&str>>()
+                    .join(".");
+                debug!("trie filter adding {reversed}");
+                filter_trie.insert(reversed, true);
+            }
         }
 
         let name_servers = config.name_servers.clone();
@@ -98,8 +108,33 @@ impl ForwardAuthority {
         Ok(Self {
             origin: origin.into(),
             resolver,
-            filter: filter_names,
+            filter_trie,
         })
+    }
+
+    fn is_filtered(&self, name: &LowerName) -> bool {
+        if self.filter_trie.subtrie("").is_some() {
+            let mut search = String::new();
+            for part in name.to_string().split('.').rev() {
+                if !search.is_empty() {
+                    search.push('.');
+                }
+                search.push_str(part);
+
+                if self.filter_trie.get(&search).is_some() {
+                    debug!("match found {name} -> {search}");
+                    return true;
+                }
+
+                if let Some(subtrie) = self.filter_trie.subtrie(&search) {
+                    if subtrie.is_leaf() {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        false
     }
 }
 
@@ -140,19 +175,15 @@ impl Authority for ForwardAuthority {
         // TODO: make this an error?
         debug_assert!(self.origin.zone_of(name));
 
-        if let Some(filter) = self.filter.as_ref() {
-            let found = filter.contains(name);
+        if self.is_filtered(name) {
+            debug!("filtering {} {}", name, rtype);
 
-            if found {
-                debug!("filtering {} {}", name, rtype);
+            let response = ResolverLookup::from_rdata(
+                Query::query(name.into(), rtype),
+                RData::A(trust_dns_proto::rr::rdata::A::new(0, 0, 0, 0)),
+            );
 
-                let response = ResolverLookup::from_rdata(
-                    Query::query(name.into(), rtype),
-                    RData::A(trust_dns_proto::rr::rdata::A::new(0, 0, 0, 0)),
-                );
-
-                return Ok(ForwardLookup(response));
-            }
+            return Ok(ForwardLookup(response));
         }
 
         debug!("forwarding lookup: {} {}", name, rtype);

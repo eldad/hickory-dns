@@ -1855,6 +1855,7 @@ dependencies = [
  "futures-util",
  "h2",
  "http",
+ "radix_trie",
  "rusqlite",
  "rustls",
  "serde",
