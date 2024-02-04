@@ -74,6 +74,8 @@ impl ForwardAuthority {
                 debug!("trie filter adding {reversed}");
                 filter_trie.insert(reversed, true);
             }
+
+            info!("added trie domain filter to forwarder config: {} entries", filter_trie.len());
         }
 
         let name_servers = config.name_servers.clone();
